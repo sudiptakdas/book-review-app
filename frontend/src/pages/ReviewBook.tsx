@@ -15,6 +15,8 @@ const ReviewBook: React.FC = () => {
     rating: 0,
   });
 
+  const [errors, setErrors] = useState<string[]>([]);
+
   const handleRating = (rate: number) => {
     setReviewData((prevState) => ({
       ...prevState,
@@ -31,7 +33,22 @@ const ReviewBook: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(reviewData);
+    setErrors([]);
+    const validationErrors: string[] = [];
+    if (!reviewData.user_name.trim()) {
+      validationErrors.push('Please enter your username.');
+    }
+    if (!reviewData.comment.trim()) {
+      validationErrors.push('Please enter your review comment.');
+    }
+    if (reviewData.rating === 0) {
+      validationErrors.push('Please rate the book.');
+    }
+
+    if (validationErrors.length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
     try {
       const response = await axios.post(
         `http://localhost:3000/api/books/${id}/reviews`,
@@ -44,6 +61,7 @@ const ReviewBook: React.FC = () => {
 
       console.log(response);
 
+      setErrors([]);
       setReviewData({
         user_name: '',
         comment: '',
@@ -97,6 +115,13 @@ const ReviewBook: React.FC = () => {
             <h1 className='text-start'>Rate the book:</h1>
             <Rating SVGstyle={{ display: 'inline' }} onClick={handleRating} />
           </div>
+          {errors.length > 0 && (
+            <ul className='text-red-600 font-medium'>
+              {errors.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
+          )}
           <button
             type='submit'
             className='border border-green-400 text-green-700 font-medium px-6 py-3 rounded-lg max-w-fit mt-2'
