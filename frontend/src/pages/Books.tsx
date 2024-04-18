@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import BooksComponent from '../components/BooksComponent';
+import { useNavigate } from 'react-router-dom';
 
 export interface booksType {
   _id: string;
@@ -12,7 +13,9 @@ export interface booksType {
 }
 
 const Books: React.FC = () => {
+  const navigate = useNavigate();
   const [booksData, setBooksData] = useState<booksType[]>();
+
   useEffect(() => {
     const fetch = async () => {
       await axios
@@ -22,7 +25,6 @@ const Books: React.FC = () => {
     fetch();
   }, []);
 
-  console.log(booksData, '@@@@@');
 
   return (
     <div className=' border border-gray-400 p-8 rounded-md'>
@@ -36,6 +38,7 @@ const Books: React.FC = () => {
               description={book?.description}
               author={book?.author}
               image={book?.image}
+              onClick={() => navigate(`/book/${book?._id}`)}
             />
           );
         })}

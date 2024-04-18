@@ -1,5 +1,4 @@
 import React from 'react';
-import { booksType } from '../pages/Books';
 
 interface BooksCompType {
   _id: string;
@@ -7,7 +6,7 @@ interface BooksCompType {
   title: string;
   author: string;
   description: string;
-  onReviewClick?: () => void;
+  onClick?: () => void;
 }
 
 const BooksComponent: React.FC<BooksCompType> = ({
@@ -16,7 +15,7 @@ const BooksComponent: React.FC<BooksCompType> = ({
   title,
   author,
   description,
-  onReviewClick,
+  onClick,
 }) => {
   return (
     <div className='flex gap-4'>
@@ -37,9 +36,9 @@ const BooksComponent: React.FC<BooksCompType> = ({
         <button
           className='flex items-start border-2 border-green-400 text-green-700 font-medium px-6 py-3 rounded-lg max-w-fit mt-2'
           id={_id}
-          onClick={onReviewClick}
+          onClick={onClick}
         >
-          Review Book
+          View More
         </button>
       </div>
     </div>
