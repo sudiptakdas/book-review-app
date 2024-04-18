@@ -38,6 +38,7 @@ const Books: React.FC = () => {
               description={book?.description}
               author={book?.author}
               image={book?.image}
+              rating={book?.averageRating}
               onClick={() => navigate(`/book/${book?._id}`)}
             />
           );

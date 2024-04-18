@@ -1,18 +1,19 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Rating } from 'react-simple-star-rating';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 export interface bookType {
   _id: string;
   author: string;
   image: string;
-  averageRating: string;
+  averageRating: number;
   description: string;
   title: string;
   reviews: any;
 }
 
-const Book = () => {
+const Book: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [bookData, setBookData] = useState<bookType>();
@@ -32,7 +33,15 @@ const Book = () => {
         <h1 className='text-3xl font-bold'>{bookData?.title}</h1>
       </div>
       <div className=' flex justify-between items-center'>
-        <div className=' text-start text-xl font-medium'>Rating:</div>
+        <div className=' text-start text-2xl font-medium flex items-center gap-2'>
+          Rating:
+          <Rating
+            SVGstyle={{ display: 'inline' }}
+            initialValue={bookData?.averageRating || 0}
+            allowHover={false}
+            readonly
+          />
+        </div>
         <button
           className='flex items-start border-2 border-green-400 text-green-700 font-medium px-6 py-3 rounded-lg max-w-fit mt-2'
           onClick={() => {
@@ -60,7 +69,10 @@ const Book = () => {
           <div>
             <h1 className='text-3xl font-semibold mb-2'>Reviews</h1>
             {bookData?.reviews?.map(
-              (item: { user_name: string; comment: string }, index: number) => (
+              (
+                item: { user_name: string; comment: string; rating: number },
+                index: number
+              ) => (
                 <div
                   className='flex flex-col gap-2 mt-4 border border-gray-300 py-3 px-6 rounded-lg bg-gray-50'
                   key={index}
@@ -74,7 +86,16 @@ const Book = () => {
                       {item?.user_name}
                     </h1>
                   </div>
-                  <div className='text-start text-base'>Rating:</div>
+                  <div className='text-start text-base flex items-center gap-2'>
+                    <span>Review :</span>
+                    <Rating
+                      SVGstyle={{ display: 'inline' }}
+                      initialValue={item?.rating || 0}
+                      allowHover={false}
+                      readonly
+                      size={25}
+                    />
+                  </div>
                   <h1 className='text-start'>{item?.comment}</h1>
                 </div>
               )
