@@ -1,9 +1,11 @@
 const express = require('express');
 const app = express();
-const booksRoutes = require('./routes/booksRoutes')
+const cors = require('cors');
+const booksRoutes = require('./routes/booksRoutes');
 require('./connection/conn');
 
 const port = 3000;
+app.use(cors()); // added to call api form frontend
 
 // Middleware
 app.use(express.json());

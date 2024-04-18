@@ -30,6 +30,7 @@ router.get('/books', async (req, res) => {
       _id: book._id,
       title: book.title,
       author: book.author,
+      image: book.image,
       genre: book.genre,
       description: book.description,
       averageRating: book.averageRating,
