@@ -57,28 +57,30 @@ const Book = () => {
       </div>
       <div className=' border bg-gray-300 w-full'></div>
       <div className=' flex flex-col'>
-        <h1 className=' text-3xl font-semibold mb-2'>Reviews</h1>
-        {bookData?.reviews?.map(
-          (item: { user_name: string; comment: string }, index: string) => {
-            return (
-              <div
-                className=' flex flex-col gap-2 mt-4 border border-gray-300 py-3 px-6 rounded-lg bg-gray-50'
-                key={index}
-              >
-                <div className=' flex gap-2 items-center'>
-                  <img
-                    src={`https://picsum.photos/200/${index}`}
-                    className=' rounded-full w-10 h-10 '
-                  />
-                  <h1 className=' text-xl font-medium -mt-1'>
-                    {item?.user_name}
-                  </h1>
+        {bookData?.reviews.length > 0 && (
+          <div>
+            <h1 className='text-3xl font-semibold mb-2'>Reviews</h1>
+            {bookData?.reviews?.map(
+              (item: { user_name: string; comment: string }, index: number) => (
+                <div
+                  className='flex flex-col gap-2 mt-4 border border-gray-300 py-3 px-6 rounded-lg bg-gray-50'
+                  key={index}
+                >
+                  <div className='flex gap-2 items-center'>
+                    <img
+                      src={`https://picsum.photos/200/${index}`}
+                      className='rounded-full w-10 h-10'
+                    />
+                    <h1 className='text-xl font-medium -mt-1'>
+                      {item?.user_name}
+                    </h1>
+                  </div>
+                  <div className='text-start text-base'>Rating:</div>
+                  <h1 className='text-start'>{item?.comment}</h1>
                 </div>
-                <div className=' text-start text-base'>Rating:</div>
-                <h1 className=' text-start'>{item?.comment}</h1>
-              </div>
-            );
-          }
+              )
+            )}
+          </div>
         )}
       </div>
     </div>
