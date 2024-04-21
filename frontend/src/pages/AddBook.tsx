@@ -4,12 +4,14 @@ import axios from 'axios';
 
 const AddBookForm: React.FC = () => {
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     title: '',
     author: '',
     image: '',
     description: '',
   });
+  const [errors, setErrors] = useState<string[]>([]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -23,6 +25,26 @@ const AddBookForm: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    setErrors([]);
+    const validationErrors: string[] = [];
+    if (!formData.title.trim()) {
+      validationErrors.push('Please enter the title.');
+    }
+    if (!formData.author.trim()) {
+      validationErrors.push('Please enter the author.');
+    }
+    if (!formData.image.trim()) {
+      validationErrors.push('Please enter the image URL.');
+    }
+    if (!formData.description.trim()) {
+      validationErrors.push('Please enter the description.');
+    }
+
+    if (validationErrors.length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
     try {
       const response = await axios.post('http://localhost:3000/api/books', {
         title: formData?.title,
@@ -39,10 +61,10 @@ const AddBookForm: React.FC = () => {
 
   return (
     <div className='border border-gray-300 p-6 rounded-lg flex flex-col gap-10 items-center'>
-      <h1 className='text-3xl font-medium'>Add Book</h1>
+      <h1 className='text-4xl font-semibold'>Add Book</h1>
       <form
         onSubmit={handleSubmit}
-        className='flex flex-col gap-3 w-full max-w-4xl'
+        className='flex flex-col gap-10 w-full max-w-4xl'
       >
         <input
           type='text'
@@ -51,7 +73,6 @@ const AddBookForm: React.FC = () => {
           onChange={handleInputChange}
           placeholder='Title'
           className='border border-gray-400 rounded-xl px-3 py-2'
-          required
         />
         <input
           type='text'
@@ -60,7 +81,6 @@ const AddBookForm: React.FC = () => {
           onChange={handleInputChange}
           placeholder='Author'
           className='border border-gray-400 rounded-xl px-3 py-2'
-          required
         />
         <input
           type='text'
@@ -69,7 +89,6 @@ const AddBookForm: React.FC = () => {
           onChange={handleInputChange}
           placeholder='Image URL'
           className='border border-gray-400 rounded-xl px-3 py-2'
-          required
         />
         <textarea
           name='description'
@@ -78,8 +97,14 @@ const AddBookForm: React.FC = () => {
           placeholder='Description'
           rows={3}
           className='border border-gray-400 rounded-xl px-3 py-2'
-          required
         ></textarea>
+        {errors.length > 0 && (
+          <ul className='text-red-600 font-medium'>
+            {errors.map((error, index) => (
+              <li key={index}>{error}</li>
+            ))}
+          </ul>
+        )}
         <button
           type='submit'
           className='border border-green-400 text-green-700 font-medium px-6 py-3 rounded-lg max-w-fit mt-2'
