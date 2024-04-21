@@ -4,6 +4,7 @@ import App from './App.tsx';
 import Books from './pages/Books.tsx';
 import Book from './pages/Book.tsx';
 import ReviewBook from './pages/ReviewBook.tsx';
+import AddBook from './pages/AddBook.tsx';
 import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
   {
     path: '/books',
     element: <Books />,
+  },
+  {
+    path: '/add-book',
+    element: <AddBook />,
   },
   {
     path: 'book/:id',

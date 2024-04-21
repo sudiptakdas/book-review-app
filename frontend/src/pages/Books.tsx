@@ -25,10 +25,20 @@ const Books: React.FC = () => {
     fetch();
   }, []);
 
-
   return (
     <div className=' border border-gray-400 p-8 rounded-md'>
       <h1 className=' text-6xl text-blue-500 font-semibold mb-10'>Books</h1>
+      <div className=' flex justify-end mb-4 -mt-6'>
+        <button
+          className='flex items-start border-2 border-green-400 text-green-700 font-medium px-6 py-3 rounded-lg max-w-fit mt-2'
+          onClick={() => {
+            navigate('/add-book');
+          }}
+        >
+          Add More Book
+        </button>
+      </div>
+
       <div className=' flex flex-col gap-2'>
         {booksData?.map((book) => {
           return (
@@ -38,7 +48,7 @@ const Books: React.FC = () => {
               description={book?.description}
               author={book?.author}
               image={book?.image}
-              rating={book?.averageRating}
+              rating={parseInt(book?.averageRating)}
               onClick={() => navigate(`/book/${book?._id}`)}
             />
           );
